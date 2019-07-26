@@ -4,9 +4,36 @@
     <title>index</title>
 </head>
 <body>
+
+<form action="springmvc/testRest/1" method="post">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="submit" value="testRest PUT"/>
+</form>
+
+<br>
+
+<form action="springmvc/testRest/1" method="post">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="testRest DELETE"/>
+</form>
+
+<br>
+
+<form action="springmvc/testRest" method="post">
+    <input type="submit" value="testRest post"/>
+</form>
+
+<br>
+
+<a href="springmvc/testRest/1">test Rest Get</a>
+
+<br>
+
+<a href="springmvc/testPathVaribale/123">testPathVaribale</a><br>
+<a href="springmvc/testAnt/xxxxx/ant">testAnt</a><br>
 <a href="springmvc/testParamsAndHeader?username=haha&age=10">testParamsAndHeader</a><br>
 <a href="helloworld">Hello world</a><br>
-<a href="springmvc/testRequestMapping">testRequestMapping</a><<br>
+<a href="springmvc/testRequestMapping">testRequestMapping</a><br>
 <a href="springmvc/testMethod">testMethod</a>
 <form action="springmvc/testMethod" method="post">
     <input type="submit" value="submit">
