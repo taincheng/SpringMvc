@@ -1,9 +1,7 @@
 package com.mvc.controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/springmvc")
 @Controller
@@ -111,4 +109,48 @@ public class TestRequestMapping {
         System.out.println("testRest PUT : " + id);
         return SUCCESS;
     }
+
+    /**
+     * @RequestMapping 来映射请求参数
+     * value 值即请求参数的参数名。
+     * required 该参数是否必须， 默认为true
+     * defaultValue 请求参数的默认值
+     * @param un
+     * @param pw
+     * @return
+     */
+    @RequestMapping("/testRequestParam")
+    public String testRequestParam(@RequestParam(value = "username") String un,
+                                   @RequestParam(value = "password", required = false) String pw){
+        System.out.println("testRequestParam, username : " + un +
+                            "password : " + pw);
+        return SUCCESS;
+    }
+
+
+    /**
+     * 了解：
+     * 映射请求头信息
+     * 用法同 @RequestParam
+     * @param a1
+     * @return
+     */
+    @RequestMapping("/testRequestHeader")
+    public String testRequestHeader(@RequestHeader(value = "Accept-Language")String a1){
+        System.out.println("testRequestHeader, Accept-language " + a1);
+        return SUCCESS;
+    }
+
+    /**
+     * 了解：
+     * @CookieValue: 映射一个Cookie值，属性同@RequestParam
+     * @param sessionID
+     * @return
+     */
+    @RequestMapping("/testCookiesValue")
+    public String testCookieValue(@CookieValue("JSESSIONID") String sessionID){
+        System.out.println("testCookieValue: sessionID: " + sessionID);
+        return SUCCESS;
+    }
+
 }

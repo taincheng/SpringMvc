@@ -5,6 +5,19 @@
 </head>
 <body>
 
+<a href="springmvc/testCookiesValue">testCookiesValue</a>
+
+<br>
+
+
+<a href="springmvc/testRequestHeader">testRequestHeader</a>
+
+<br>
+
+<a href="springmvc/testRequestParam?username=zhang&password=123">testRequestParam</a>
+
+<br>
+
 <form action="springmvc/testRest/1" method="post">
     <input type="hidden" name="_method" value="PUT">
     <input type="submit" value="testRest PUT"/>
