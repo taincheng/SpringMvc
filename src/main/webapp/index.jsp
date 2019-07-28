@@ -5,6 +5,9 @@
 </head>
 <body>
 
+<a href="springmvc/testSessionAttribute">testSessionAttribute</a>
+<br>
+
 <a href="springmvc/testMap">testMap</a>
 <br>
 

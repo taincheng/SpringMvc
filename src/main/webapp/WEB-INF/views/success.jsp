@@ -14,6 +14,15 @@
  <h1>Success JSP</h1>
 
 test: ${requestScope.test }<br>
-names: ${requestScope.names}
+names: ${requestScope.names}<br>
+
+request user: ${requestScope.user}<br>
+request school: ${requestScope.school}<br>
+
+session user: ${sessionScope.user}<<br>
+session school: ${sessionScope.school}<br>
+
+
+
 </body>
 </html>

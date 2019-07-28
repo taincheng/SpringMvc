@@ -10,6 +10,16 @@ public class User {
 
     private Address address;
 
+    public User() {
+    }
+
+    public User(String username, String password, String email, String age) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.age = age;
+    }
+
     public Address getAddress() {
         return address;
     }
