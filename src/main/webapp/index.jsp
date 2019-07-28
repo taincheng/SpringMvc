@@ -5,6 +5,12 @@
 </head>
 <body>
 
+<a href="springmvc/testMap">testMap</a>
+<br>
+
+<a href="springmvc/testModelAndView">testModelAndView</a>
+<br>
+
 <a href="springmvc/testServletAPI">test ServletAPI</a>
 <br>
 

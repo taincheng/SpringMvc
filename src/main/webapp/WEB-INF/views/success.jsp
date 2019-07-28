@@ -12,5 +12,8 @@
 </head>
 <body>
  <h1>Success JSP</h1>
+
+test: ${requestScope.test }<br>
+names: ${requestScope.names}
 </body>
 </html>

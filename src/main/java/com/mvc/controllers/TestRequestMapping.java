@@ -3,9 +3,13 @@ package com.mvc.controllers;
 import com.mvc.Pojo.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
 
 @RequestMapping("/springmvc")
 @Controller
@@ -194,6 +198,35 @@ public class TestRequestMapping {
     public String testServletAPI(HttpServletRequest request,
                                  HttpServletResponse response) {
         System.out.println("testServletAPI， " + request + ", " + response);
+        return SUCCESS;
+    }
+
+
+    /**
+     * 目标方法的返回值可以是ModelAndView 类型
+     * 其中可以包含视图和模型信息
+     * SpringMVC 会把ModerAndView 的 model 中数据放入到request 域对象中。
+     * @return
+     */
+    @RequestMapping("/testModelAndView")
+    public ModelAndView testModelAndView(){
+        String viewName = SUCCESS;
+        ModelAndView modelAndView = new ModelAndView(viewName);
+        modelAndView.addObject("test",new Date());
+
+        return modelAndView;
+    }
+
+    /**
+     * 目标方法可以添加Map 类型（实际上也可以是 model类型或 modelMap类型）参数。
+     *
+     * @param map
+     * @return
+     */
+    @RequestMapping("/testMap")
+    public String testMap(Map<String, Object> map){
+        System.out.println(map.getClass().getName());
+        map.put("names", Arrays.asList("tom","jack","wuli"));
         return SUCCESS;
     }
 
