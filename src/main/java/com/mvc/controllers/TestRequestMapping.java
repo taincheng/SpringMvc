@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
-@SessionAttributes(value = {"user"}, types = {String.class})
+//@SessionAttributes(value = {"user"}, types = {String.class})
 @RequestMapping("/springmvc")
 @Controller
 public class TestRequestMapping {
@@ -249,4 +249,78 @@ public class TestRequestMapping {
         return SUCCESS;
     }
 
+
+    /**
+     * 运行流程：
+     * 1.执行@ModelAttribute 注解修饰的方法：从数据库中取出对象，把对象放入到了Map中。键为User。
+     * 2.SpringMvc从 Map 中取出User对象，并把表单的请求参数赋给该User 对象的对应属性。
+     *      这样就达到了 只修改了表单中对应数据，而不影响数据库中其他数据的 目的
+     * 3.SpringMVC 把上述对象传入目标方法的参数。
+     *
+     * 注意：
+     * 在 @ModelAttribute 修饰的方法中，放到Map时的键需要和目标方法入参类型
+     * 的第一个字母小写的字符串一致。
+     *
+     *
+     * SpringMvc 确定目标方法POJO类型入参的过程
+     * 1.确定一个Key：
+     *     1.若目标方法的POJO类型的参数没有使用@ModelAttribute 作为修饰，则key为POJO。
+     *     类名的第一个字母小写。
+     *     2.若使用了@ModelAttribute 来修饰，则key 为 @ModelAttribute 注解的value属性值。
+     * 2.在 implicitModel 中查找key 对应的对象，若存在，则作为入参传入。
+     *      1.若在@ModelAttribute 标记的方法中再Map中保存过，且key 和 1 确定的key 一致，则会获取到。
+     * 3.若 implicitModel 中不存在 key 对应的对象，则检查当前的Handler 是否使用
+     *      @SessionAttributes 注解修饰，若使用了该注释，且@SessionAttributes 注解的value
+     *      属性值中包含了key，则会从HttpSession 中来获取key所对应的value值，若存在则直接传入
+     *      到目标方法的入参中，若不存在就抛出异常。
+     * 4.若handler 没有标识@SessionAttributes 注解或 @SessionAttributes 注解的value 值中不
+     *      包含key，则会通过反射来创建POJO类型的参数，传入作为目标方法的参数。
+     * 5.SpringMvc 会把key 和 POJO类型的对象 保存到implicitModel中，进而保存到request中。
+     *
+     *
+     * 源码分析的流程：
+     * 1.调用 @ModelAttribute 注解修饰时方法。实际上把@ModelAttribute 方法中Map中的数据放在了implicitModel中。
+     * 2。解析请求处理器的目标参数，实际上该目标参数来自于WebDataBinder 对象的target 属性。
+     *      1.创建WebDateBinder 对象：
+     *          1.确定objectName 属性： 若传入的attrName 属性值为 “” ，则objectName为类名第一个字母小写。
+     *         注意：attrName。若目标方法的POJO属性使用了@ModelAttribute 来修饰，
+     *              则attrName值即为@ModelAttribute的value属性值。
+     *          2.确定target属性：
+     *              >.在implicitModel 中查找attrName 对应的属性值，若存在，ok
+     *              >.若不存在：则验证当前Handler 是否使用了@SessionAttributes 进行修饰，
+     *                    若使用了，则尝试从Session中获取attrName所对应的属性值，若session
+     *                    中没有对应的属性值，则抛出异常。
+     *              >.若Handler没有使用@SessionAttributes 进行修饰，或@SessionAttributes 中没有使用value
+     *                  值指定的key 和 attrName相匹配，则通过反射创建了POJO对象。
+     *      2.SpringMVC 把表单的请求参数赋给了WebDataBinder 的 target 对应的属性。
+     *      3.SpringMVC 会把WebDataBinder 的 attrName 和 target给到 implicitModel。
+     *                  进而传到 request 域对象中。
+     *      4.把WebDataBinder 的 target 作为参数传递给目标方法的入参。
+     *
+     *
+     *
+     * @param user
+     * @return
+     */
+    @RequestMapping("/testModelAttribute")
+    public String testModelAttribute(@ModelAttribute("abc") User user){
+        //@ModelAttribute("abc") 告诉springMVC，abc指了谁。
+        System.out.println("修改 : " + user);
+        return SUCCESS;
+    }
+
+
+    /**
+     * 有 @ModelAttribute 标记的方法，会在每个目标执行之前被SpringMvc 调用。
+     * @param id
+     * @param map
+     */
+    @ModelAttribute
+    public void getUser(@RequestParam(value = "id",required = false) Integer id, Map<String, Object> map){
+        if(id != null){
+            User user = new User(1,"tom","123456","a@qq.com","12");
+            map.put("abc",user);
+            System.out.println("模拟从数据库中获取一个对象; " + user);
+        }
+    }
 }

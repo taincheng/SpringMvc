@@ -7,10 +7,19 @@ public class User {
     private String password;
     private String email;
     private String age;
+    private int id;
 
     private Address address;
 
     public User() {
+    }
+
+    public User( int id,String username, String password, String email, String age) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.age = age;
+        this.id = id;
     }
 
     public User(String username, String password, String email, String age) {
@@ -18,6 +27,14 @@ public class User {
         this.password = password;
         this.email = email;
         this.age = age;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Address getAddress() {
